@@ -35,7 +35,7 @@ public class GenerateTilemap : MonoBehaviour
 
         for (int i = -(worldWidth / 2); i < worldWidth / 2; i++)
         {
-            for (int j = -worldHeight; j < 0; j++)
+            for (int j = -worldHeight; j < noiseMap[i + (worldWidth / 2)]; j++)
             {
                 map.SetTile(new Vector3Int(i, j, 0), dirt);
             }
