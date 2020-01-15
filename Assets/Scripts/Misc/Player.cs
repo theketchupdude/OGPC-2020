@@ -4,20 +4,42 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private CharacterController character;
+    private Rigidbody2D rb;
 
-    public int Speed = 1;
+    public int speed = 1;
+
+    private bool onGround = true;
 
     void Start()
     {
-        character = gameObject.GetComponent<CharacterController>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        character.Move(move * Time.deltaTime * Speed);
-        if (move != Vector3.zero)
-            transform.forward = move;
+        Vector2 move = new Vector2(Input.GetAxis("Horizontal") * speed, rb.velocity.y);
+
+        if (Input.GetAxis("Jump") > 0.5 && onGround)
+        {
+            move.y += 12;
+            onGround = false;
+        }
+
+        rb.velocity = move;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        onGround = true;
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        onGround = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        onGround = false;
     }
 }
