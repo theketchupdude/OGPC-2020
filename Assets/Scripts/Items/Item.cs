@@ -23,6 +23,10 @@ namespace OGPC
         public bool isPlaceable;
 
         public TileBase m_placedTile;
+
+        public int maxStackSize = 64;
+
+        public int stackedAmount = 1;
     }
 
     [CustomEditor(typeof(Item))]
@@ -53,10 +57,46 @@ namespace OGPC
 
             EditorGUIUtility.labelWidth = oldLabelWidth;
             item.m_placedTile = (TileBase)EditorGUILayout.ObjectField("Placed Tile", item.m_placedTile, typeof(TileBase), false, null);
+
+            item.maxStackSize = (int)EditorGUILayout.IntField("Max Stack Size", item.maxStackSize, (GUILayoutOption[])null);
+
+            item.stackedAmount = (int)EditorGUILayout.IntField("Current Stacked Amount", item.stackedAmount, (GUILayoutOption[])null);
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(item);
 
-            
+
+        }
+    }
+
+    [Serializable]
+    public class InventoryItem
+    {
+        public string name = "";
+        public int maxStackSize = 0;
+        public int stackedAmount = 0;
+
+        public InventoryItem(string _name, int _maxStackSize, int _stackedAmount)
+        {
+            name = _name;
+            maxStackSize = _maxStackSize;
+            stackedAmount = _stackedAmount;
+        }
+
+        public bool matches(string itemName) // This code defines whether an item matches another, can be expanded to a more complete test if needed
+        {
+            return itemName == name;
+        }
+
+        public bool isEmpty()
+        {
+            return name == null && maxStackSize == 0 && stackedAmount == 0;
+        }
+
+        public void clearSlot()
+        {
+            name = null;
+            maxStackSize = 0;
+            stackedAmount = 0;
         }
     }
 }
