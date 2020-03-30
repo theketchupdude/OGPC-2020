@@ -7,6 +7,8 @@ public class Planet : MonoBehaviour
 {
     double temperature = 0.0; // in Celsius because metric
 
+    bool isIcePlanet = false;
+
     public Item dirtItem;
     public Item stoneItem;
 
@@ -18,9 +20,9 @@ public class Planet : MonoBehaviour
     {
         System.Random rng = new System.Random(seed);
 
-        temperature = (NextGaussianDouble() * 60);
+        temperature = NextGaussianDouble() * 60;
 
-        print(temperature);
+        isIcePlanet = temperature > 0.0;
     }
 
     private static double NextGaussianDouble()

@@ -141,7 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75b59f9b3ccda24aaec30a31b52e1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfPlanets: 25
+  numberOfPlanets: 100
+  spawnTriesPerPlanet: 99
+  planetSpawnAreaSize: 50
   planetPrefab: {fileID: 7319486561230272088, guid: 0bc2de5894c84b34a9d5f80eaee0a6af,
     type: 3}
 --- !u!4 &686154160
@@ -152,7 +154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686154158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -254,4 +256,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PPU: 16
-  PPUScale: 1
+  PPUScale: 2
