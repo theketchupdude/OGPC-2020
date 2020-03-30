@@ -7,6 +7,8 @@ public class Planet : MonoBehaviour
 {
     double temperature = 0.0; // in Celsius because metric
 
+    double planetFoliageHue;
+
     bool isIcePlanet = false;
 
     public Item dirtItem;
@@ -23,6 +25,10 @@ public class Planet : MonoBehaviour
         temperature = NextGaussianDouble() * 60;
 
         isIcePlanet = temperature > 0.0;
+
+        planetFoliageHue = Random.Range(0, 360);
+
+        GetComponent<SpriteRenderer>().material.SetFloat("_Hue", (float)planetFoliageHue);
     }
 
     private static double NextGaussianDouble()

@@ -14,19 +14,14 @@ public class PlanetGenerator : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < numberOfPlanets; i++)
+        SpawnPlanet(new Vector3(0, 0, 0), "Ship");
+
+        SpawnPlanet(new Vector3(0, (float)planetSpawnAreaSize, 0), "Start");
+
+
+        for (int i = 2; i < numberOfPlanets; i++)
         {
-            Vector3 location = FindSpawnLocation(spawnTriesPerPlanet);
-
-            GameObject planet = Instantiate(planetPrefab);
-
-            planet.name = "Planet #" + i;
-
-            planet.GetComponent<Planet>().RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
-
-            planet.transform.parent = gameObject.transform;
-
-            planet.transform.position = location;
+            SpawnPlanet(FindSpawnLocation(spawnTriesPerPlanet), "Planet #" + i);
         }
     }
 
@@ -48,5 +43,18 @@ public class PlanetGenerator : MonoBehaviour
         }
 
         return pos;
+    }
+
+    private void SpawnPlanet(Vector3 loc, string name)
+    {
+        GameObject planet = Instantiate(planetPrefab);
+
+        planet.name = name;
+
+        planet.GetComponent<Planet>().RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
+
+        planet.transform.parent = gameObject.transform;
+
+        planet.transform.position = loc;
     }
 }
