@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8cafb73d8116134fbad3096daf6a800, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   speed: 5
   tilemap: {fileID: 367679696}
   destroySprite: {fileID: 1769312677}
@@ -286,7 +286,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0.01
+  m_EdgeRadius: 0
 --- !u!114 &263978086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 015868d82066aea4996004b88ef7b78f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   inventorySize: 32
   inventory: []
 --- !u!1 &367679696
@@ -457,8 +457,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 603a93498667af54b919f8bf1f788214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   worldWidth: 250
   worldHeight: 100
   dirt: {fileID: 11400000, guid: b1167c7f6e8ff5546a50c9fada378461, type: 2}
@@ -563,8 +563,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f5692a268064ad4f92c703c379cc400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   PPU: 16
   PPUScale: 2
 --- !u!20 &519420031
@@ -965,8 +965,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aad9a685e8b3364cba034a172d94ddf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   follow: {fileID: 263978079}
   lightObj: {fileID: 0}
   sun: {fileID: 648292276}
