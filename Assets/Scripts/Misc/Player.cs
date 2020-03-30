@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using OGPC;
 
 public class Player : MonoBehaviour
 {
@@ -20,8 +21,9 @@ public class Player : MonoBehaviour
 
     public GameObject destroySprite;
     public Sprite[] destroySprites;
+    public double mineSpeed = 5;
 
-    private float destroyTimer;
+    private double destroyTimer;
 
     void Start()
     {
@@ -45,26 +47,49 @@ public class Player : MonoBehaviour
         rb.velocity = move;
 
         //Mining/destroying blocks
-        if (Input.GetMouseButton(0)) 
+        if (Input.GetMouseButton(0))
         {
             Vector3 wP = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            wP.z = 0;
 
             Vector3Int tilePos = new Vector3Int((int)Math.Floor(wP.x), (int)Math.Floor(wP.y), 0);
 
-            destroyTimer += Time.deltaTime * 4;
+            DestructibleTile dTile;
+            TileBase tile = map.GetTile(tilePos);
 
-            if (destroyTimer > 9)
+            if (tile != null && tile.GetType() == typeof(DestructibleTile))
             {
-                map.SetTile(tilePos, null);
-                destroyTimer = 0;
+                dTile = (DestructibleTile)tile;
+
+                destroyTimer += Time.deltaTime * (mineSpeed - dTile.hardness);
+
+                if (destroyTimer > 9)
+                {
+                    dTile.SpawnDrop(wP);
+                    map.SetTile(tilePos, null);
+                    destroyTimer = 0;
+                }
+                else
+                {
+                    if (destroySprite.transform.position == new Vector3(tilePos.x + 0.5f, tilePos.y + 0.5f, -0.5f))
+                    {
+                        destroySprite.GetComponent<SpriteRenderer>().sprite = destroySprites[(int)Math.Floor(destroyTimer)];
+                    }
+                    else
+                    {
+                        destroySprite.transform.position = new Vector3(tilePos.x + 0.5f, tilePos.y + 0.5f, -0.5f);
+                        destroyTimer = 0f;
+                        destroySprite.GetComponent<SpriteRenderer>().sprite = destroySprites[0];
+                    }
+                }
             }
-            else 
+            else
             {
-                destroySprite.GetComponent<SpriteRenderer>().sprite = destroySprites[(int)Math.Floor(destroyTimer)];
-                destroySprite.transform.position = new Vector3(tilePos.x + 0.5f, tilePos.y + 0.5f, -0.5f);
+                destroyTimer = 0f;
+                destroySprite.GetComponent<SpriteRenderer>().sprite = destroySprites[0];
             }
         }
-        else 
+        else
         {
             destroyTimer = 0f;
             destroySprite.GetComponent<SpriteRenderer>().sprite = destroySprites[0];

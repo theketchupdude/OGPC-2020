@@ -126,9 +126,10 @@ GameObject:
   - component: {fileID: 263978085}
   - component: {fileID: 263978082}
   - component: {fileID: 263978083}
+  - component: {fileID: 263978086}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263978079}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -243,6 +244,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 73619843adfe40142afb981b507ec35f, type: 3}
   - {fileID: 21300000, guid: 0577e878d86842b408cb86362e456910, type: 3}
   - {fileID: 21300000, guid: 0577e878d86842b408cb86362e456910, type: 3}
+  mineSpeed: 5
 --- !u!70 &263978084
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -272,7 +274,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.5}
+  m_Offset: {x: 0, y: -1.49}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -284,7 +286,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.01
+--- !u!114 &263978086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263978079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015868d82066aea4996004b88ef7b78f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 32
+  inventory: []
 --- !u!1 &367679696
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,17 +459,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603a93498667af54b919f8bf1f788214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldWidth: 200
-  worldHeight: 50
+  worldWidth: 250
+  worldHeight: 100
   dirt: {fileID: 11400000, guid: b1167c7f6e8ff5546a50c9fada378461, type: 2}
-  stone: {fileID: 11400000, guid: 5d0c3f68193c9d5428b7a32c02cb1061, type: 2}
-  noiseScale: 1
-  seed: 2089332647
+  stone: {fileID: 11400000, guid: cd6229cb46bd96e4eb961091e253123c, type: 2}
+  noiseScale: 0.1
+  seed: 234525
   offset: {x: 0, y: 0}
   oreScale: 0.1
   oreThresholds:
   - 0.7
-  range: 2
+  range: 25
 --- !u!66 &367679701
 CompositeCollider2D:
   m_ObjectHideFlags: 0

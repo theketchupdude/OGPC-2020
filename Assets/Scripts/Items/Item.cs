@@ -16,6 +16,8 @@ namespace OGPC
     {
         public Sprite[] m_Sprites;
 
+        public Sprite dropSprite;
+
         public double m_Durability;
 
         public double m_Damage;
@@ -26,7 +28,15 @@ namespace OGPC
 
         public int maxStackSize = 64;
 
-        public int stackedAmount = 1;
+        public bool matches(string itemName) // This code defines whether an item matches another, can be expanded to a more complete test if needed
+        {
+            return ToString() == itemName;
+        }
+
+        public bool matches(Item testItem) // This code defines whether an item matches another, can be expanded to a more complete test if needed
+        {
+            return ToString() == testItem.ToString();
+        }
     }
 
     [CustomEditor(typeof(Item))]
@@ -59,8 +69,6 @@ namespace OGPC
             item.m_placedTile = (TileBase)EditorGUILayout.ObjectField("Placed Tile", item.m_placedTile, typeof(TileBase), false, null);
 
             item.maxStackSize = (int)EditorGUILayout.IntField("Max Stack Size", item.maxStackSize, (GUILayoutOption[])null);
-
-            item.stackedAmount = (int)EditorGUILayout.IntField("Current Stacked Amount", item.stackedAmount, (GUILayoutOption[])null);
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(item);
 
@@ -69,16 +77,22 @@ namespace OGPC
     }
 
     [Serializable]
-    public class InventoryItem
+    public class ItemContainer
     {
         public string name = "";
-        public int maxStackSize = 0;
+        public Item item;
         public int stackedAmount = 0;
 
-        public InventoryItem(string _name, int _maxStackSize, int _stackedAmount)
+        public ItemContainer(string _name, int _stackedAmount)
         {
             name = _name;
-            maxStackSize = _maxStackSize;
+            stackedAmount = _stackedAmount;
+        }
+
+        public ItemContainer(Item _item, int _stackedAmount)
+        {
+            item = _item;
+            name = _item.ToString();
             stackedAmount = _stackedAmount;
         }
 
@@ -87,15 +101,19 @@ namespace OGPC
             return itemName == name;
         }
 
+        public bool matches(Item testItem) // This code defines whether an item matches another, can be expanded to a more complete test if needed
+        {
+            return item.matches(testItem);
+        }
+
         public bool isEmpty()
         {
-            return name == null && maxStackSize == 0 && stackedAmount == 0;
+            return name == null || stackedAmount == 0;
         }
 
         public void clearSlot()
         {
             name = null;
-            maxStackSize = 0;
             stackedAmount = 0;
         }
     }

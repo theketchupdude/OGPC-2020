@@ -26,6 +26,26 @@ MonoBehaviour:
     m_Output: 0
     m_ColliderType: 1
     m_RandomTransform: 0
+  - m_Neighbors: 0000000002000000000000000100000002000000000000000100000000000000
+    m_Sprites:
+    - {fileID: 21300000, guid: 8e5507e80caa49e4695727c307c0c04b, type: 3}
+    m_GameObject: {fileID: 0}
+    m_AnimationSpeed: 1
+    m_PerlinScale: 0.5
+    m_RuleTransform: 0
+    m_Output: 0
+    m_ColliderType: 1
+    m_RandomTransform: 0
+  - m_Neighbors: 0000000002000000000000000200000001000000000000000100000000000000
+    m_Sprites:
+    - {fileID: 21300000, guid: a9037b9b6b031f1439064613622fca2e, type: 3}
+    m_GameObject: {fileID: 0}
+    m_AnimationSpeed: 1
+    m_PerlinScale: 0.5
+    m_RuleTransform: 0
+    m_Output: 0
+    m_ColliderType: 1
+    m_RandomTransform: 0
   - m_Neighbors: 0000000002000000000000000200000002000000000000000100000000000000
     m_Sprites:
     - {fileID: 21300000, guid: c07d0baac56c98d4d94c1358204cd5d4, type: 3}
@@ -47,3 +67,4 @@ MonoBehaviour:
     m_ColliderType: 1
     m_RandomTransform: 0
   dropItem: {fileID: 11400000, guid: 759c5cfdf0f56954f965315868db15cf, type: 2}
+  hardness: 0

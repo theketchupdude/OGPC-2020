@@ -54,16 +54,23 @@ public class GenerateTilemap : MonoBehaviour
 
     void generateStonePatches()
     {
-        float offsetX = rng.Next(-100, 101);
-        float offsetY = rng.Next(-100, 101);
+        float offsetX = rng.Next(-100, 101) + 1000;
+        float offsetY = rng.Next(-100, 101) + 1000;
 
         for (int i = -(worldWidth / 2); i < worldWidth / 2; i++)
         {
             for (int j = -worldHeight; j < 0; j++)
             {
-                if (Mathf.PerlinNoise((i + offsetX) * oreScale, (j + offsetY) * oreScale) > oreThresholds[0])
+                float weight = Mathf.PerlinNoise((i + offsetX) * oreScale, (j + offsetY) * oreScale);
+
+				weight *= Mathf.Clamp((-j) * 0.05f, 0, 9);
+
+                if (weight > oreThresholds[0])
                 {
-                    map.SetTile(new Vector3Int(i, j, 0), stone);
+                  	if (map.GetTile(new Vector3Int(i, j, 0)) != null)
+                  	{
+                    	map.SetTile(new Vector3Int(i, j, 0), stone);
+                  	}
                 }
             }
         }

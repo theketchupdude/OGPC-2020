@@ -7,33 +7,34 @@ public class Inventory : MonoBehaviour
 {
 
     public int inventorySize = 32;
-    public InventoryItem[] inventory;
+    public ItemContainer[] inventory;
 
     // Start is called before the first frame update
     void Start()
     {
-        inventory = new InventoryItem[inventorySize];
+        inventory = new ItemContainer[inventorySize];
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddItemToInventory("Dirt", 4, 1); //***** These fields can be replaced with item.blank instead of hardcoded values
-        }
-        else if (Input.GetKeyDown(KeyCode.B))
-        {
-            RemoveItemFromInventory("Dirt"); //***** Same here
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+            //AddItem("Dirt", 1); //***** These fields can be replaced with item.blank instead of hardcoded values
+        //}
+        //else if (Input.GetKeyDown(KeyCode.B))
+        //{
+            //RemoveItem("Dirt"); //***** Same here
+        //}
     }
 
-    public void AddItemToInventory(string itemName, int maxStackSize, int amount)
+    public void AddItem(string itemName, int amount)
     {
-        foreach (InventoryItem item in inventory)
+        foreach (ItemContainer item in inventory)
         {
+            if (item == null) continue;
             if (item.isEmpty()) continue; // if item slot is empty then we can ignore it and continue to next slot
             if (!item.matches(itemName)) continue; // if item slot doesn't match then we can ignore it and continue to next slot
-            if (item.stackedAmount >= maxStackSize) continue; // test if the slot is full, if it is another might not be so continue to next slot
+            if (item.stackedAmount >= item.item.maxStackSize) continue; // test if the slot is full, if it is another might not be so continue to next slot
 
             item.stackedAmount++;
             return; // item has been handled and placed in inventory
@@ -41,18 +42,42 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < inventory.Length; i++) // either item wasn't found in inventory already or other slots were full
         {
-            if (inventory[i].isEmpty())
+            if (inventory[i] == null || inventory[i].isEmpty())
             {
-                inventory[i] = new InventoryItem(itemName, maxStackSize, amount);
+                inventory[i] = new ItemContainer(itemName, amount);
                 print("Item added to new slot");
                 return; // Item was added to inventory in a new slow
             }
         }
     }
 
-    public void RemoveItemFromInventory(string itemName)
+    public void AddItem(Item itm, int amount)
     {
-        foreach (InventoryItem item in inventory)
+        foreach (ItemContainer item in inventory)
+        {
+            if (item == null) continue;
+            if (item.isEmpty()) continue; // if item slot is empty then we can ignore it and continue to next slot
+            if (!item.matches(itm)) continue; // if item slot doesn't match then we can ignore it and continue to next slot
+            if (item.stackedAmount >= itm.maxStackSize) continue; // test if the slot is full, if it is another might not be so continue to next slot
+
+            item.stackedAmount++;
+            return; // item has been handled and placed in inventory
+        }
+
+        for (int i = 0; i < inventory.Length; i++) // either item wasn't found in inventory already or other slots were full
+        {
+            if (inventory[i] == null || inventory[i].isEmpty())
+            {
+                inventory[i] = new ItemContainer(itm, amount);
+                print("Item added to new slot");
+                return; // Item was added to inventory in a new slow
+            }
+        }
+    }
+
+    public void RemoveItem(string itemName)
+    {
+        foreach (ItemContainer item in inventory)
         {
             if (item.matches(itemName)) // item was found in inventory
             {
