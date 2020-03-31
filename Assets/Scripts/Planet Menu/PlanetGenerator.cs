@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OGPC;
 
 public class PlanetGenerator : MonoBehaviour
 {
@@ -12,11 +13,16 @@ public class PlanetGenerator : MonoBehaviour
 
     public GameObject planetPrefab;
 
+    public CameraPan panCamera;
+
+    public Item[] dirtItems;
+    public Item[] stoneItems;
+
     void Start()
     {
         SpawnPlanet(new Vector3(0, 0, 0), "Ship");
 
-        SpawnPlanet(new Vector3(0, (float)planetSpawnAreaSize, 0), "Start");
+        panCamera.currentPlanet = SpawnPlanet(new Vector3(0, (float)planetSpawnAreaSize, 0), "Start");
 
 
         for (int i = 2; i < numberOfPlanets; i++)
@@ -45,16 +51,21 @@ public class PlanetGenerator : MonoBehaviour
         return pos;
     }
 
-    private void SpawnPlanet(Vector3 loc, string name)
+    private GameObject SpawnPlanet(Vector3 loc, string name)
     {
         GameObject planet = Instantiate(planetPrefab);
 
         planet.name = name;
 
-        planet.GetComponent<Planet>().RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
-
         planet.transform.parent = gameObject.transform;
 
         planet.transform.position = loc;
+
+        Planet planetComponent = planet.GetComponent<Planet>();
+
+        planetComponent.dirtItem = dirtItems[Random.Range(0, dirtItems.Length)];
+        planetComponent.stoneItem = stoneItems[Random.Range(0, stoneItems.Length)];
+
+        return planet;
     }
 }

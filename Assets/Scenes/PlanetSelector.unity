@@ -143,9 +143,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfPlanets: 100
   spawnTriesPerPlanet: 99
-  planetSpawnAreaSize: 50
+  planetSpawnAreaSize: 100
   planetPrefab: {fileID: 7319486561230272088, guid: 0bc2de5894c84b34a9d5f80eaee0a6af,
     type: 3}
+  panCamera: {fileID: 829505084}
+  dirtItems:
+  - {fileID: 11400000, guid: 759c5cfdf0f56954f965315868db15cf, type: 2}
+  stoneItems:
+  - {fileID: 11400000, guid: 4715f331920c73342b12c4d7bd46f239, type: 2}
 --- !u!4 &686154160
 Transform:
   m_ObjectHideFlags: 0
@@ -172,6 +177,7 @@ GameObject:
   - component: {fileID: 829505081}
   - component: {fileID: 829505080}
   - component: {fileID: 829505083}
+  - component: {fileID: 829505084}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -213,7 +219,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 33.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -256,4 +262,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PPU: 16
-  PPUScale: 2
+  PPUScale: 1
+--- !u!114 &829505084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829505079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee9945d4960ec64ab49724199407f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseBorder: {x: 40, y: 20}
+  currentPlanet: {fileID: 0}

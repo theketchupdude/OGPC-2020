@@ -2,7 +2,8 @@
 Shader "OGPC/Palette Swap"
 {
     // a single color property
-    Properties {
+    Properties
+    {
         _MainTex ("Sprite Texture", 2D) = "white" {}
         _Hue ("Hue", Range(0, 360)) = 0
     }
