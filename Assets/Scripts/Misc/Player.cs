@@ -9,9 +9,11 @@ public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    public int speed = 1;
+    public Transform groundCheck;
 
-    private bool onGround = true;
+    public LayerMask groundMask;
+
+    public int speed = 1;
 
     private Camera mainCamera;
 
@@ -25,6 +27,10 @@ public class Player : MonoBehaviour
 
     private double destroyTimer;
 
+    public float jumpCooldownTime = 0.25f;
+    public float jumpForce = 550f;
+    private bool readyToJump = true;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -34,18 +40,24 @@ public class Player : MonoBehaviour
         map = tilemap.GetComponent<Tilemap>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
+        IsGrounded();
+
         Vector2 move = new Vector2(Input.GetAxis("Horizontal") * speed, rb.velocity.y);
 
-        if (Input.GetAxis("Jump") > 0.5 && onGround)
+        if (Input.GetAxis("Jump") > 0.5 && readyToJump)
         {
-            move.y += 12;
-            onGround = false;
+            rb.AddForce(Vector3.up * jumpForce);
+            readyToJump = false;
+            Invoke("jumpCooldown", jumpCooldownTime);
         }
 
         rb.velocity = move;
+    }
 
+    void Update()
+    {
         //Mining/destroying blocks
         if (Input.GetMouseButton(0))
         {
@@ -96,11 +108,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void IsGrounded()
     {
-        if (Vector2.Angle(other.GetContact(0).normal, Vector2.up) < 45)
+        if (Physics2D.OverlapBox(groundCheck.position, new Vector2(1.5f, 0.15f), 0, groundMask))
         {
-            onGround = true;
+            readyToJump = true;
         }
+        else
+        {
+            readyToJump = false;
+        }
+    }
+
+    void jumpCooldown()
+    {
+        readyToJump = true;
     }
 }
