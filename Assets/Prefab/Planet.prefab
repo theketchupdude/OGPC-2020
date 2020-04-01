@@ -93,11 +93,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bacef1fa1e3756409d89a24a0238a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snowItem: {fileID: 0}
   dirtItem: {fileID: 0}
+  sandItem: {fileID: 0}
   stoneItem: {fileID: 0}
   resourceCommon: {fileID: 0}
   resourceUncommon: {fileID: 0}
   resourceRare: {fileID: 0}
+  linePrefab: {fileID: 5019927972884269722, guid: 430d7a4236d7a214fa6f0aab2a59ec80,
+    type: 3}
 --- !u!58 &5121729392453526499
 CircleCollider2D:
   m_ObjectHideFlags: 0

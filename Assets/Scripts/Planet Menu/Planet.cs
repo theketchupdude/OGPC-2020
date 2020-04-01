@@ -9,8 +9,8 @@ public class Planet : MonoBehaviour
 
     double planetFoliageHue;
 
-    public bool isIcePlanet;
-    public bool isDesertPlanet;
+    bool isIcePlanet;
+    bool isDesertPlanet;
 
     public Item snowItem;
 
@@ -22,23 +22,40 @@ public class Planet : MonoBehaviour
     public Item resourceUncommon;
     public Item resourceRare;
 
-    public Planet[] adjacents;
+    public GameObject linePrefab;
+
+    bool selected;
+
+    GameObject[] adjacents;
+
+    float connectRadius = 20;
+
+    public int number;
+
+    void Awake()
+    {
+        RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
+    }
 
     void Start()
     {
-        RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
-
         GetComponent<CircleCollider2D>().enabled = false;
 
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 20);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, connectRadius);
 
-        adjacents = new Planet[cols.Length];
+        adjacents = new GameObject[cols.Length];
 
-        for (int i = 0; i < cols.Length; i++) {
-            adjacents[i] = cols[i].gameObject.GetComponent<Planet>();
+        for (int i = 0; i < cols.Length; i++)
+        {
+            adjacents[i] = cols[i].gameObject;
         }
 
         GetComponent<CircleCollider2D>().enabled = true;
+    }
+
+    public void SetSelected(bool s)
+    {
+        selected = s;
     }
 
     void RandomizeStats(int seed)
@@ -74,8 +91,18 @@ public class Planet : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        for (int i = 0; i < adjacents.Length; i++) {
-            Gizmos.DrawLine(transform.position, adjacents[i].gameObject.transform.position);
+        for (int i = 0; i < adjacents.Length; i++)
+        {
+            if (adjacents[i] != null && number < adjacents[i].GetComponent<Planet>().number)
+            {
+                Gizmos.DrawLine(transform.position, adjacents[i].transform.position);
+            }
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        UnityEditor.Handles.color = Color.green;
+        UnityEditor.Handles.DrawWireDisc(transform.position , transform.forward, connectRadius);
     }
 }

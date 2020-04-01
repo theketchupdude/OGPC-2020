@@ -20,15 +20,16 @@ public class PlanetGenerator : MonoBehaviour
 
     void Start()
     {
-        SpawnPlanet(new Vector3(0, 0, 0), "Ship");
+        SpawnPlanet(new Vector3(0, 0, 0), 0);
 
-        panCamera.currentPlanet = SpawnPlanet(new Vector3(0, (float)planetSpawnAreaSize, 0), "Start");
-
+        GameObject startPlanet = SpawnPlanet(new Vector3(0, (float)planetSpawnAreaSize, 0), 1);
 
         for (int i = 2; i < numberOfPlanets; i++)
         {
-            SpawnPlanet(FindSpawnLocation(spawnTriesPerPlanet), "Planet #" + i);
+            SpawnPlanet(FindSpawnLocation(spawnTriesPerPlanet), i);
         }
+
+        panCamera.SetPlanet(startPlanet);
     }
 
     private Vector3 FindSpawnLocation(int maxAttempts)
@@ -51,17 +52,17 @@ public class PlanetGenerator : MonoBehaviour
         return pos;
     }
 
-    private GameObject SpawnPlanet(Vector3 loc, string name)
+    private GameObject SpawnPlanet(Vector3 loc, int num)
     {
-        GameObject planet = Instantiate(planetPrefab);
+        GameObject planet = Instantiate(planetPrefab, transform);
 
-        planet.name = name;
-
-        planet.transform.parent = gameObject.transform;
+        planet.name = "Planet #" + num;
 
         planet.transform.position = loc;
 
         Planet planetComponent = planet.GetComponent<Planet>();
+
+        planetComponent.number = num;
 
         planetComponent.dirtItem = dirtItems[Random.Range(0, dirtItems.Length)];
         planetComponent.stoneItem = stoneItems[Random.Range(0, stoneItems.Length)];

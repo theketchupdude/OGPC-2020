@@ -8,9 +8,9 @@ public class CameraPan : MonoBehaviour
 
     public Vector2 mouseBorder = new Vector2();
 
-    bool controlEnabled = true;
+    bool controlEnabled = false;
 
-    public GameObject currentPlanet;
+    GameObject currentPlanet;
 
     void Start()
     {
@@ -41,7 +41,9 @@ public class CameraPan : MonoBehaviour
             }
         }
 
-        SmoothPan(currentPlanet.transform.position, movement * 6);
+        if (currentPlanet != null) {
+            SmoothPan(currentPlanet.transform.position, movement * 6);
+        }
     }
 
     void SmoothPan(Vector3 origin, Vector3 pan)
@@ -51,5 +53,15 @@ public class CameraPan : MonoBehaviour
         pan.z = 0;
 
         transform.position = Vector3.Lerp(transform.position, origin + pan, Time.deltaTime);
+    }
+
+    public void SetPlanet(GameObject planet)
+    {
+        if (currentPlanet != null)
+        {
+            currentPlanet.GetComponent<Planet>().SetSelected(false);
+        }
+        planet.GetComponent<Planet>().SetSelected(true);
+        currentPlanet = planet;
     }
 }
