@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour
     public int inventorySize = 32;
     public ItemContainer[] inventory;
 
+    public Item debugItem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +19,10 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-            //AddItem("Dirt", 1); //***** These fields can be replaced with item.blank instead of hardcoded values
-        //}
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     AddItem(debugItem, 1); //***** These fields can be replaced with item.blank instead of hardcoded values
+        // }
         //else if (Input.GetKeyDown(KeyCode.B))
         //{
             //RemoveItem("Dirt"); //***** Same here

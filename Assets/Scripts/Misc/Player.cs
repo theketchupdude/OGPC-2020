@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
     public float jumpForce = 550f;
     private bool readyToJump = true;
 
+    public GameObject inventory;
+    private bool invEnabled;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -58,6 +61,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I)) ToggleInventory();
+
         //Mining/destroying blocks
         if (Input.GetMouseButton(0))
         {
@@ -123,5 +128,11 @@ public class Player : MonoBehaviour
     void jumpCooldown()
     {
         readyToJump = true;
+    }
+
+    void ToggleInventory()
+    {
+        invEnabled = !invEnabled;
+        inventory.SetActive(invEnabled);
     }
 }
