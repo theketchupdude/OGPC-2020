@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private bool readyToJump = true;
 
     public GameObject inventory;
-    private bool invEnabled;
+    private bool invEnabled = true;
 
     void Start()
     {
