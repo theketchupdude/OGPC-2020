@@ -22,6 +22,10 @@ namespace OGPC
             drop.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
 
             drop.GetComponent<ItemEntity>().item = dropItem;
+
+            BoxCollider2D trigger = drop.AddComponent<BoxCollider2D>() as BoxCollider2D;
+            trigger.size = new Vector2(1.1f, 1.1f);
+            trigger.isTrigger = true;
         }
 
         public override bool RuleMatch(int neighbor, TileBase tile)

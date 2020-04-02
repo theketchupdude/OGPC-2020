@@ -10,6 +10,9 @@ public class InventoryDisplay : MonoBehaviour
 
     public RawImage[] inventoryImages;
     public TextMeshProUGUI[] inventoryCount;
+
+    public GameObject slotPrefab;
+
     private Inventory inventory;
 
     private bool invEnabled = false;
@@ -17,36 +20,37 @@ public class InventoryDisplay : MonoBehaviour
     private void Awake()
     {
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        inventoryImages = new RawImage[32];
-        inventoryCount = new TextMeshProUGUI[32];
-        GameObject[] inventoryTemp = GameObject.FindGameObjectsWithTag("Item Slot");
+        inventory.SetDisplay(this);
+        inventoryImages = new RawImage[inventory.inventorySize];
+        inventoryCount = new TextMeshProUGUI[inventory.inventorySize];
+        GameObject[] inventoryTemp = new GameObject[inventory.inventorySize];
         for (int i = 0; i < inventoryTemp.Length; i++)
         {
+            inventoryTemp[i] = Instantiate(slotPrefab, transform);
+
             inventoryImages[i] = inventoryTemp[i].transform.GetChild(0).GetComponent<RawImage>();
             inventoryCount[i] = inventoryTemp[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-
-            inventoryCount[i].gameObject.SetActive(false);
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void InventoryChanged()
     {
         for (int i = 0; i < inventory.inventory.Length; i++)
         {
-            if (inventory.inventory[i] == null) continue;
+            if (inventory.inventory[i] == null)
+            {
+                inventoryImages[i].gameObject.SetActive(false);
+                inventoryCount[i].text = "";
+                inventoryCount[i].gameObject.SetActive(false);
+
+                continue;
+            }
             if (!inventory.inventory[i].isEmpty())
             {
                 inventoryImages[i].texture = inventory.inventory[i].item.m_Sprites[0].texture;
+                inventoryImages[i].gameObject.SetActive(true);
                 inventoryCount[i].text = inventory.inventory[i].stackedAmount.ToString();
-                if (int.Parse(inventoryCount[i].text) > 0) inventoryCount[i].gameObject.SetActive(true);
-                else inventoryCount[i].gameObject.SetActive(false);
+                inventoryCount[i].gameObject.SetActive(true);
             }
         }
     }

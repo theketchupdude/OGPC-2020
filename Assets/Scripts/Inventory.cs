@@ -9,24 +9,11 @@ public class Inventory : MonoBehaviour
     public int inventorySize = 32;
     public ItemContainer[] inventory;
 
-    public Item debugItem;
+    private InventoryDisplay display;
 
-    // Start is called before the first frame update
     void Start()
     {
         inventory = new ItemContainer[inventorySize];
-    }
-
-    private void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     AddItem(debugItem, 1); //***** These fields can be replaced with item.blank instead of hardcoded values
-        // }
-        //else if (Input.GetKeyDown(KeyCode.B))
-        //{
-            //RemoveItem("Dirt"); //***** Same here
-        //}
     }
 
     public void AddItem(string itemName, int amount)
@@ -39,6 +26,7 @@ public class Inventory : MonoBehaviour
             if (item.stackedAmount >= item.item.maxStackSize) continue; // test if the slot is full, if it is another might not be so continue to next slot
 
             item.stackedAmount++;
+            NotifyDisplay();
             return; // item has been handled and placed in inventory
         }
 
@@ -48,6 +36,7 @@ public class Inventory : MonoBehaviour
             {
                 inventory[i] = new ItemContainer(itemName, amount);
                 print("Item added to new slot");
+                NotifyDisplay();
                 return; // Item was added to inventory in a new slow
             }
         }
@@ -63,6 +52,7 @@ public class Inventory : MonoBehaviour
             if (item.stackedAmount >= itm.maxStackSize) continue; // test if the slot is full, if it is another might not be so continue to next slot
 
             item.stackedAmount++;
+            NotifyDisplay();
             return; // item has been handled and placed in inventory
         }
 
@@ -72,6 +62,7 @@ public class Inventory : MonoBehaviour
             {
                 inventory[i] = new ItemContainer(itm, amount);
                 print("Item added to new slot");
+                NotifyDisplay();
                 return; // Item was added to inventory in a new slow
             }
         }
@@ -87,8 +78,22 @@ public class Inventory : MonoBehaviour
                 {
                     item.clearSlot(); // remove item from slot
                 }
+                NotifyDisplay();
                 return;
             }
         }
+    }
+
+    private void NotifyDisplay()
+    {
+        if (display != null)
+        {
+            display.InventoryChanged();
+        }
+    }
+
+    public void SetDisplay(InventoryDisplay disp)
+    {
+        display = disp;
     }
 }

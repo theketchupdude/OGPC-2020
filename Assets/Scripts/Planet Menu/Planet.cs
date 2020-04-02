@@ -9,8 +9,8 @@ public class Planet : MonoBehaviour
 
     double planetFoliageHue;
 
-    bool isIcePlanet;
-    bool isDesertPlanet;
+    public bool isIcePlanet;
+    public bool isDesertPlanet;
 
     public Item snowItem;
 
@@ -24,7 +24,7 @@ public class Planet : MonoBehaviour
 
     public GameObject linePrefab;
 
-    bool selected;
+    public bool selected;
 
     GameObject[] adjacents;
 
@@ -48,14 +48,14 @@ public class Planet : MonoBehaviour
         for (int i = 0; i < cols.Length; i++)
         {
             adjacents[i] = cols[i].gameObject;
+
+            if (adjacents[i].GetComponent<Planet>().number < number)
+            {
+                Instantiate(linePrefab, transform).GetComponent<PlanetLine>().SetPlanets(this, adjacents[i].GetComponent<Planet>());
+            }
         }
 
         GetComponent<CircleCollider2D>().enabled = true;
-    }
-
-    public void SetSelected(bool s)
-    {
-        selected = s;
     }
 
     void RandomizeStats(int seed)
@@ -67,7 +67,18 @@ public class Planet : MonoBehaviour
         isIcePlanet = temperature < 0.0;
         isDesertPlanet = temperature > 40.0;
 
-        planetFoliageHue = Random.Range(0, 360);
+        if (isIcePlanet)
+        {
+            planetFoliageHue = 120 + (NextGaussianDouble() * 35);
+        }
+        else if (isDesertPlanet)
+        {
+            planetFoliageHue = 290 + (NextGaussianDouble() * 35);
+        }
+        else
+        {
+            planetFoliageHue = 170 + (NextGaussianDouble() * 50);
+        }
 
         GetComponent<SpriteRenderer>().material.SetFloat("_Hue", (float)planetFoliageHue);
     }
@@ -104,5 +115,10 @@ public class Planet : MonoBehaviour
     {
         UnityEditor.Handles.color = Color.green;
         UnityEditor.Handles.DrawWireDisc(transform.position , transform.forward, connectRadius);
+    }
+
+    void OnMouseDown()
+    {
+        Camera.main.GetComponent<CameraPan>().SetPlanet(gameObject);
     }
 }

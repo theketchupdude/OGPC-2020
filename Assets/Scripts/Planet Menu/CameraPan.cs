@@ -59,9 +59,9 @@ public class CameraPan : MonoBehaviour
     {
         if (currentPlanet != null)
         {
-            currentPlanet.GetComponent<Planet>().SetSelected(false);
+            currentPlanet.GetComponent<Planet>().selected = false;
         }
-        planet.GetComponent<Planet>().SetSelected(true);
+        planet.GetComponent<Planet>().selected = true;
         currentPlanet = planet;
     }
 }
