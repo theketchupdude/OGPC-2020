@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 using OGPC;
 
 public class Planet : MonoBehaviour
@@ -12,15 +14,7 @@ public class Planet : MonoBehaviour
     public bool isIcePlanet;
     public bool isDesertPlanet;
 
-    public Item snowItem;
-
-    public Item dirtItem;
-    public Item sandItem;
-    public Item stoneItem;
-
-    public Item resourceCommon;
-    public Item resourceUncommon;
-    public Item resourceRare;
+    public PlanetData data;
 
     public GameObject linePrefab;
 
@@ -37,7 +31,7 @@ public class Planet : MonoBehaviour
         RandomizeStats(Random.Range(int.MinValue, int.MaxValue));
     }
 
-    void Start()
+    public void InitAdjacents()
     {
         GetComponent<CircleCollider2D>().enabled = false;
 
@@ -47,11 +41,14 @@ public class Planet : MonoBehaviour
 
         for (int i = 0; i < cols.Length; i++)
         {
-            adjacents[i] = cols[i].gameObject;
-
-            if (adjacents[i].GetComponent<Planet>().number < number)
+            if (cols[i].gameObject.GetComponent<Planet>() != null)
             {
-                Instantiate(linePrefab, transform).GetComponent<PlanetLine>().SetPlanets(this, adjacents[i].GetComponent<Planet>());
+                adjacents[i] = cols[i].gameObject;
+                
+                if (adjacents[i].GetComponent<Planet>().number < number)
+                {
+                    Instantiate(linePrefab, transform).GetComponent<PlanetLine>().SetPlanets(this, adjacents[i].GetComponent<Planet>());
+                }
             }
         }
 
@@ -80,7 +77,7 @@ public class Planet : MonoBehaviour
             planetFoliageHue = 170 + (NextGaussianDouble() * 50);
         }
 
-        GetComponent<SpriteRenderer>().material.SetFloat("_Hue", (float)planetFoliageHue);
+        GetComponent<Image>().material.SetFloat("_Hue", (float)planetFoliageHue);
     }
 
     private static double NextGaussianDouble()
@@ -99,18 +96,6 @@ public class Planet : MonoBehaviour
         return u * fac;
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        for (int i = 0; i < adjacents.Length; i++)
-        {
-            if (adjacents[i] != null && number < adjacents[i].GetComponent<Planet>().number)
-            {
-                Gizmos.DrawLine(transform.position, adjacents[i].transform.position);
-            }
-        }
-    }
-
     void OnDrawGizmosSelected()
     {
         UnityEditor.Handles.color = Color.green;
@@ -120,5 +105,29 @@ public class Planet : MonoBehaviour
     void OnMouseDown()
     {
         Camera.main.GetComponent<CameraPan>().SetPlanet(gameObject);
+        GenerateTilemap.data = this.data;
+        //SceneManager.LoadScene("LoadingScreen");
+    }
+
+    public struct PlanetData
+    {
+        public PlanetData(TileBase dirt, TileBase sand, TileBase stone, TileBase rare, TileBase medium, TileBase common)
+        {
+            dirtTile = dirt;
+            sandTile = sand;
+            stoneTile = stone;
+
+            rareOre = rare;
+            mediumOre = medium;
+            commonOre = common;
+        }
+
+        TileBase dirtTile;
+        TileBase sandTile;
+        TileBase stoneTile;
+
+        TileBase rareOre;
+        TileBase mediumOre;
+        TileBase commonOre;
     }
 }

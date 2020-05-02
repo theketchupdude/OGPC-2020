@@ -13,6 +13,8 @@ public class GenerateTilemap : MonoBehaviour
     public TileBase dirt;
     public TileBase stone;
 
+    public static Planet.PlanetData data;
+
     public float noiseScale = 1;
     public int seed = 1;
     public Vector2 offset = new Vector2(0, 0);

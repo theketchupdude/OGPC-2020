@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using OGPC;
 
 public class PlanetGenerator : MonoBehaviour
@@ -13,10 +14,15 @@ public class PlanetGenerator : MonoBehaviour
 
     public GameObject planetPrefab;
 
-    public CameraPan panCamera;
+    public TileBase[] dirtTiles;
+    public TileBase[] stoneTiles;
+    public TileBase[] oreTiles;
 
-    public Item[] dirtItems;
-    public Item[] stoneItems;
+    public Vector2 mouseBorder = new Vector2();
+
+    bool controlEnabled = true;
+
+    GameObject currentPlanet;
 
     void Start()
     {
@@ -29,7 +35,36 @@ public class PlanetGenerator : MonoBehaviour
             SpawnPlanet(FindSpawnLocation(spawnTriesPerPlanet), i);
         }
 
-        panCamera.SetPlanet(startPlanet);
+        SetPlanet(startPlanet);
+    }
+
+    void Update()
+    {
+        Vector3 movement = new Vector3();
+
+        if (controlEnabled) {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+            if (mousePosition.y < Camera.main.orthographicSize - mouseBorder.y) {
+                movement.y += mousePosition.y - (-Camera.main.orthographicSize + mouseBorder.y);
+            }
+            if (mousePosition.y > -Camera.main.orthographicSize + mouseBorder.y) {
+                movement.y += mousePosition.y - (Camera.main.orthographicSize - mouseBorder.y);
+            }
+
+            float xSize = Camera.main.orthographicSize * Camera.main.aspect;
+
+            if (mousePosition.x > xSize - mouseBorder.x) {
+                movement.x += mousePosition.x - (xSize - mouseBorder.x);
+            }
+            if (mousePosition.x < -xSize + mouseBorder.x) {
+                movement.x += mousePosition.x - (-xSize + mouseBorder.x);
+            }
+        }
+
+        if (currentPlanet != null) {
+            SmoothPan(currentPlanet.transform.position, movement * 6);
+        }
     }
 
     private Vector3 FindSpawnLocation(int maxAttempts)
@@ -64,9 +99,39 @@ public class PlanetGenerator : MonoBehaviour
 
         planetComponent.number = num;
 
-        planetComponent.dirtItem = dirtItems[Random.Range(0, dirtItems.Length)];
-        planetComponent.stoneItem = stoneItems[Random.Range(0, stoneItems.Length)];
+        planetComponent.data = new Planet.PlanetData(
+        dirtTiles[Random.Range(0, dirtTiles.Length)],
+        dirtTiles[Random.Range(0, dirtTiles.Length)],
+        stoneTiles[Random.Range(0, stoneTiles.Length)],
+        oreTiles[Random.Range(0, oreTiles.Length)],
+        oreTiles[Random.Range(0, oreTiles.Length)],
+        oreTiles[Random.Range(0, oreTiles.Length)]
+        );
+
+        planetComponent.InitAdjacents();
 
         return planet;
+    }
+
+    void SmoothPan(Vector3 origin, Vector3 pan)
+    {
+        origin.z = -10;
+
+        pan.z = -10;
+
+        Vector3 pos = Vector3.Lerp(transform.position, pan, Time.deltaTime);
+        pos.z = -10;
+
+        transform.position = pos;
+    }
+
+    public void SetPlanet(GameObject planet)
+    {
+        if (currentPlanet != null)
+        {
+            currentPlanet.GetComponent<Planet>().selected = false;
+        }
+        planet.GetComponent<Planet>().selected = true;
+        currentPlanet = planet;
     }
 }
