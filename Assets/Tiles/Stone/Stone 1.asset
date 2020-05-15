@@ -12,11 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87371b5ecd789c94bbc9f72d39679df2, type: 3}
   m_Name: Stone 1
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: f3c0723d0113aa34d96f8c7e8279e5c1, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 4e2b6e2382010bc45a10b43d270c9df3, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
-  m_TilingRules: []
-  itemEntityPrefab: {fileID: 114306811498339178, guid: 1377f7e690f4fbb4bbb7de5cc96d1643,
-    type: 3}
+  m_TilingRules:
+  - m_Neighbors: 0000000000000000000000000000000000000000000000000000000000000000
+    m_Sprites:
+    - {fileID: 21300000, guid: f3c0723d0113aa34d96f8c7e8279e5c1, type: 3}
+    - {fileID: 21300000, guid: f6be6d0731db6aa40b4f6fec810c9eb9, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    m_GameObject: {fileID: 0}
+    m_AnimationSpeed: 1
+    m_PerlinScale: 0.5
+    m_RuleTransform: 0
+    m_Output: 0
+    m_ColliderType: 1
+    m_RandomTransform: 0
   dropItem: {fileID: 11400000, guid: 4715f331920c73342b12c4d7bd46f239, type: 2}
   hardness: 2
