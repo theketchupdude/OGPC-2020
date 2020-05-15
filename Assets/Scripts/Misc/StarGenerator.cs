@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class StarGenerator : MonoBehaviour
@@ -9,32 +7,31 @@ public class StarGenerator : MonoBehaviour
 
     public Star[] stars;
 
-    private GameObject[] objs;
+    private AnimatedStar[] objs;
 
     void Start()
     {
+        objs = new AnimatedStar[numberOfStars];
+
         for(int i = 0; i < numberOfStars; i++)
         {
-            objs[i] = new GameObject();
-            objs[i].transform.parent = gameObject.transform;
-            objs[i].AddComponent<SpriteRenderer>();
+            GameObject obj = new GameObject("Star");
+            obj.transform.parent = gameObject.transform;
+            obj.transform.position = new Vector3(UnityEngine.Random.Range(-30, 30), UnityEngine.Random.Range(-30, 30), 1);
+            objs[i] = obj.AddComponent<AnimatedStar>();
+            objs[i].star = stars[UnityEngine.Random.Range(0, stars.Length)];
         }
     }
 
     void Update()
     {
-        foreach (Star s in stars)
-        {
-            s.nextFrame();
-        }
+        transform.Rotate(Vector3.forward, Time.deltaTime);
     }
 
     [Serializable]
     public class Star
     {
         public Sprite[] anim;
-
-        public Vector3 pos;
 
         private int frame = 0;
 
@@ -46,6 +43,23 @@ public class StarGenerator : MonoBehaviour
         public Sprite getFrame()
         {
             return anim[frame];
+        }
+    }
+
+    public class AnimatedStar : MonoBehaviour
+    {
+        public Star star;
+
+        private SpriteRenderer sprite;
+
+        void Awake()
+        {
+            sprite = gameObject.AddComponent<SpriteRenderer>();
+        }
+
+        void Update()
+        {
+            sprite.sprite = star.getFrame();
         }
     }
 }

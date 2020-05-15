@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02fd8f106208e0645ba2392d151edc5e, type: 3}
-  m_Name: Copper
+  m_Name: Iron
   m_EditorClassIdentifier: 
   m_Sprites:
-  - {fileID: 21300000, guid: cfa91a23d9b42d945a4c666f65081b27, type: 3}
+  - {fileID: 21300000, guid: fcb6eb3059d0a5d4497c065b500dedff, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -32,5 +32,5 @@ MonoBehaviour:
   m_Durability: 0
   m_Damage: 0
   isPlaceable: 1
-  m_placedTile: {fileID: 11400000, guid: ce08c558e1e14844eaac774e667721bb, type: 2}
+  m_placedTile: {fileID: 11400000, guid: b1f0629ac2a36304f8988ebb088c098a, type: 2}
   maxStackSize: 64

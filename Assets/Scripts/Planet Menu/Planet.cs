@@ -105,10 +105,11 @@ public class Planet : MonoBehaviour
     void OnMouseDown()
     {
         Camera.main.GetComponent<CameraPan>().SetPlanet(gameObject);
-        GenerateTilemap.data = this.data;
+        //GenerateTilemap.data = this.data;
         //SceneManager.LoadScene("LoadingScreen");
     }
 
+    [System.Serializable]
     public struct PlanetData
     {
         public PlanetData(TileBase dirt, TileBase sand, TileBase stone, TileBase rare, TileBase medium, TileBase common)
@@ -122,12 +123,12 @@ public class Planet : MonoBehaviour
             commonOre = common;
         }
 
-        TileBase dirtTile;
-        TileBase sandTile;
-        TileBase stoneTile;
+        public TileBase dirtTile;
+        public TileBase sandTile;
+        public TileBase stoneTile;
 
-        TileBase rareOre;
-        TileBase mediumOre;
-        TileBase commonOre;
+        public TileBase rareOre;
+        public TileBase mediumOre;
+        public TileBase commonOre;
     }
 }
